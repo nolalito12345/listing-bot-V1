@@ -18,33 +18,43 @@ public class Listing {
 			)
 	
 	private long id;
-	private String link;
-	private double bedrooms,price;
-	private String title;
-	@Transient // Not going to show up in our database
-	private int price_per_bedroom;
+	private String link,lease_term,address;
+	private String time_posted; // This will be the html element 'datetime' always in UTC.
+	private double house_size,price;
+
 	
 	
 	public Listing() {	
 	}
 	
 	
-	public Listing(Long id,String link, double bedrooms, String title,double price) {
+	public Listing(Long id,String link, double house_size, String lease_term,String address,double price,String time_posted) {
 		this.id = id;
+		this.lease_term = lease_term;
 		this.link = link;
-		this.bedrooms = bedrooms;
+		this.house_size = house_size;
 		this.price = price;
-		this.title = title;
+		this.address = address;
+		this.time_posted = time_posted;
 	}
 	
-	public Listing(String link, double bedrooms, String title,double price) {
+	public Listing(String link, double house_size, String lease_term,String address,double price,String time_posted) {
 		this.link = link;
-		this.bedrooms = bedrooms;
+		this.house_size = house_size;
 		this.price = price;
-		this.title = title;
+		this.lease_term = lease_term;
+		this.address = address;
+		this.time_posted = time_posted;
 	}
 
-	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -57,17 +67,11 @@ public class Listing {
 	public void setLink(String link) {
 		this.link = link;
 	}
-	public double getBedrooms() {
-		return bedrooms;
+	public double gethouse_size() {
+		return house_size;
 	}
-	public void setBedrooms(double bedrooms) {
-		this.bedrooms = bedrooms;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void sethouse_size(double house_size) {
+		this.house_size = house_size;
 	}
 	public double getPrice() {
 		return price;
@@ -75,17 +79,20 @@ public class Listing {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	public int getPrice_per_bedroom() {
-		return (int) (this.getPrice()/this.getBedrooms());
+
+	public String getLease_term() {
+		return lease_term;
+	}
+
+	public void setLease_term(String lease_term) {
+		this.lease_term = lease_term;
 	}
 
 
 
-	@Override
-	public String toString() {
-		return "Listing [id=" + id + ",link=" + link + ", bedrooms=" + bedrooms + ", price=" + price + ", title=" + title + ", PPB=" + this.getPrice_per_bedroom() + "]";
-	}
+
+
+
 	
 	
 	
