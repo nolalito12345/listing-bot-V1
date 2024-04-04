@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,10 @@ import java.util.Optional;
 
 @Service // Works with @Autowired to specify that this is the Service that needs to be instantiated.
 public class ListingService { // Business layer
+
+
+
+
 
 	private final ListingRepository listingrepository;
 
@@ -167,6 +172,7 @@ public class ListingService { // Business layer
 		return dupes;
 	}
 
+	@Scheduled(fixedRate = 60000)
 	public void fill_database_kijiji(String url) throws IOException{
 		HashSet<String> listing_links = scrapeMainPageKijiji(url);
 		HashSet<String> duplicate_links = check_kijiji_listing_duplicates(listing_links);

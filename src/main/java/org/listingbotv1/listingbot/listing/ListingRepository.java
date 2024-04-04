@@ -9,6 +9,4 @@ import java.util.Optional;
 @Repository
 public interface ListingRepository extends JpaRepository<Listing,Long>{
 	Optional<Listing> findListingByLink(String link);
-	
-
 }
