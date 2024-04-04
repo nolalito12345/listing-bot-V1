@@ -1,4 +1,4 @@
-package org.listingbotv1.listingbot.listing;
+package org.listingbotv1.listingbot.model;
 
 
 
