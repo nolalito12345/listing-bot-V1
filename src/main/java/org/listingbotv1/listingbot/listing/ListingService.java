@@ -172,7 +172,7 @@ public class ListingService { // Business layer
 		return dupes;
 	}
 
-	@Scheduled(fixedRate = 60000)
+
 	public void fill_database_kijiji(String url) throws IOException{
 		HashSet<String> listing_links = scrapeMainPageKijiji(url);
 		HashSet<String> duplicate_links = check_kijiji_listing_duplicates(listing_links);
