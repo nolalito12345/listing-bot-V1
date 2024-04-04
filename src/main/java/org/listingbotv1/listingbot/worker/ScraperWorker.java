@@ -24,6 +24,14 @@ public class ScraperWorker {
             if (url != null) {
                 // Execute web scraping task
                 scraperService.kijiji_scrape(url);
+            }else {
+                // No tasks available, wait for some time before trying again
+                try {
+                    Thread.sleep(5000); // Wait for 5 seconds before trying again
+                } catch (InterruptedException e) {
+                    // Handle interruption
+                    e.printStackTrace();
+                }
             }
         }
     }
