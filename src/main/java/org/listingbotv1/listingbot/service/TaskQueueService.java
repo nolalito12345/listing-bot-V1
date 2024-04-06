@@ -13,10 +13,17 @@ public class TaskQueueService {
     private RedisTemplate<String, String> redisTemplate;
 
     public void enqueueScraperTask(String task) {
+        System.out.println("Enqueueing task: " + task);
         redisTemplate.opsForList().rightPush(QUEUE_NAME, task);
     }
 
     public String dequeueScraperTask() {
-        return redisTemplate.opsForList().leftPop(QUEUE_NAME);
+        String task = redisTemplate.opsForList().leftPop(QUEUE_NAME);
+        System.out.println("Dequeueing task:" + task);
+        return task;
+    }
+
+    public RedisTemplate<String, String> getRedisTemplate(){
+        return this.redisTemplate;
     }
 }

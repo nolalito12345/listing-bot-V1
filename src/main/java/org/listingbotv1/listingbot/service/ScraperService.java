@@ -6,10 +6,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.listingbotv1.listingbot.model.Listing;
 import org.listingbotv1.listingbot.repository.ListingRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.ZoneId;
@@ -18,18 +21,23 @@ import java.util.HashSet;
 import java.util.Optional;
 @Service
 public class ScraperService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScraperService.class);
+
     private final ListingRepository listingrepository;
-
-
-
 
     @Autowired
     public ScraperService(ListingRepository listingrepository) {// input from ListingRepository
         this.listingrepository = listingrepository;
     }
 
-    @Async
+    @Transactional
+    public void saveListing(Listing listing) {
+        listingrepository.save(listing);
+    }
+
     public void kijiji_scrape(String url) throws IOException{
+        LOGGER.info("Starting web scraping task for URL: {}", url);
+
         HashSet<String> listing_links = kijiji_scrape_listing_links(url);
         HashSet<String> duplicate_links = kijiji_check_listing_duplicates(listing_links);
         listing_links.removeAll(duplicate_links);
@@ -42,12 +50,13 @@ public class ScraperService {
             Listing exlisting;
             try {
                 if ((exlisting = kijiji_scrape_listing_details(link)) != null) {
-                    listingrepository.save(exlisting);
+                    saveListing(exlisting);
                 }
             }catch(Exception e){
                 System.out.println("Error with listing: " + link);
             }
         }
+        LOGGER.info("Finished web scraping task for URL: {}", url);
 
     }
 

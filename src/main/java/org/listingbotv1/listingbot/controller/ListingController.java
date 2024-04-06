@@ -23,11 +23,6 @@ public class ListingController {
 		return listingservice.getListings();
 	}
 
-	@PostMapping 
-	public void addNewListing(@RequestBody Listing listing) { //POST
-		listingservice.addNewListing(listing);
-	}
-
 	@DeleteMapping(path = "{listingID}")
 	public void deleteListing(@PathVariable("listingID") Long listingID ) { // DELETE
 		

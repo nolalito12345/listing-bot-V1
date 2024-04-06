@@ -60,13 +60,12 @@ public class ScraperController {
         return "Scraping Kijiji in background";
     }
 
-    @PostMapping("/start-scraper")
-    @ResponseBody // Ensure that the return value is serialized to the response body
+    @PostMapping("/start-scraper")// Ensure that the return value is serialized to the response body
     public ResponseEntity<String> startScraper(@RequestBody String url) {
         // Enqueue web scraper task
         taskQueueService.enqueueScraperTask(url);
 
         // Return a response indicating success
-        return ResponseEntity.ok("Web scraper task enqueued successfully.");
+        return ResponseEntity.ok("Post request received!");
     }
 }

@@ -18,7 +18,9 @@ public class Listing {
 			)
 	
 	private long id;
-	private String link,lease_term,address;
+	@Column(unique = true)
+	private String link;
+	private String lease_term,address;
 	private String time_posted; // This will be the html element 'datetime' always in UTC.
 	private double house_size,price;
 
