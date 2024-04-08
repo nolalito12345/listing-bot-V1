@@ -35,7 +35,6 @@ public class ScraperWorker {
 
         while (true) {
             Long size = (taskQueueService.getRedisTemplate()).opsForList().size("scraperQueue");
-            LOGGER.info("Queue size: {}", size);
             if ((taskQueueService.getRedisTemplate()).opsForList().size("scraperQueue") > 0) {
                 String url = taskQueueService.dequeueScraperTask();
                 // Execute web scraping task

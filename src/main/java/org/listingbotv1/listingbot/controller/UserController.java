@@ -40,6 +40,12 @@ public class UserController {
         return userService.getSearchProfilesByUserId(userId);
     }
 
+    @DeleteMapping("/searchprofiles/{profileId}")
+    public void deleteSearchProfile(@PathVariable Long profileId) {
+        userService.deleteSearchProfile(profileId);
+    }
+
+
 
 
 
