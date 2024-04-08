@@ -29,14 +29,19 @@ public class ListingController {
 		listingservice.deleteListing(listingID);
 		
 	}
-	
+
+	@PostMapping("/addlisting")
+	public void addListing(@RequestBody Listing listing) throws IOException { // POST
+		listingservice.addListing(listing);
+		System.out.println("Successful Post!");
+	}
 	@PutMapping(path = "{listingID}")
 	public void updateListing(@PathVariable("listingID") Long listingID,@RequestParam(required=false) String link,@RequestParam(required=false) Double price) { // PUT
 	listingservice.updateListing(listingID,link,price);
-		
-		
 		System.out.println("Successful Put!");
 	}
+
+
 
 }
 

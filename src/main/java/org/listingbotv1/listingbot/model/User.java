@@ -1,6 +1,9 @@
 package org.listingbotv1.listingbot.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -11,19 +14,24 @@ public class User {
     private String username;
     private String email;
     // other fields and getters/setters
+    private long phoneNumber;
 
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<SearchProfile> searchProfiles;
     public User(){}
 
-    public User(Long id,String username,String email) {
+    public User(Long id,String username,String email, long phoneNumber) {
         this.id = id;
         this.username = username;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
-    public User(String username,String email) {
+    public User(String username,String email, long phoneNumber) {
         this.username = username;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
 
@@ -32,7 +40,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
+                ", email='" + email + '\'' + ", phoneNumber='" + phoneNumber +'\''+
                 '}';
     }
 
@@ -58,6 +66,21 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<SearchProfile> getSearchProfiles() {
+        return searchProfiles;
+    }
+
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    public void setSearchProfiles(Set<SearchProfile> searchProfiles) {
+        this.searchProfiles = searchProfiles;
     }
 }
 

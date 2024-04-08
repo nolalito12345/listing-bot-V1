@@ -9,8 +9,6 @@ import org.listingbotv1.listingbot.repository.ListingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +23,12 @@ public class ScraperService {
 
     private final ListingRepository listingrepository;
 
+
+
     @Autowired
     public ScraperService(ListingRepository listingrepository) {// input from ListingRepository
         this.listingrepository = listingrepository;
+
     }
 
     @Transactional
@@ -35,29 +36,31 @@ public class ScraperService {
         listingrepository.save(listing);
     }
 
-    public void kijiji_scrape(String url) throws IOException{
+    public HashSet<Listing> kijiji_scrape(String url) throws IOException{
         LOGGER.info("Starting web scraping task for URL: {}", url);
 
         HashSet<String> listing_links = kijiji_scrape_listing_links(url);
         HashSet<String> duplicate_links = kijiji_check_listing_duplicates(listing_links);
         listing_links.removeAll(duplicate_links);
+        HashSet<Listing> new_listings = new HashSet<>();
 
         if(listing_links.isEmpty()){
             System.out.println("No new listings!");
-            return;
+            return null;
         }
         for(String link : listing_links){
             Listing exlisting;
             try {
                 if ((exlisting = kijiji_scrape_listing_details(link)) != null) {
                     saveListing(exlisting);
+                    new_listings.add(exlisting);
                 }
             }catch(Exception e){
                 System.out.println("Error with listing: " + link);
             }
         }
         LOGGER.info("Finished web scraping task for URL: {}", url);
-
+        return new_listings;
     }
 
     // Takes a url and scrapes info from the listing
@@ -66,7 +69,6 @@ public class ScraperService {
         Document doc = Jsoup.connect(url).get();
         Element doc_element = doc.getElementById("vip-body"); // Body of document
 
-        String link = url; //Item Url
         System.out.println("URL: " + url);
 
         Element price_element = doc_element.select("div.priceWrapper-3915768379").first();

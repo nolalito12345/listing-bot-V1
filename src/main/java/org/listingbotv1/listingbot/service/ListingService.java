@@ -24,8 +24,7 @@ public class ListingService {
 		return listingrepository.findAll();
 	}
 
-	public void addNewListing(Listing listing) { // POST
-
+	public void addListing(Listing listing) { // POST
 		listingrepository.save(listing);
 	}
 
@@ -55,6 +54,7 @@ public class ListingService {
 		}
 
 	}
+
 
 
 
