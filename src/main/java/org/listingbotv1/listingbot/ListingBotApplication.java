@@ -14,6 +14,7 @@ import java.io.IOException;
 
 @SpringBootApplication
 @EnableAsync
+@EnableScheduling
 public class ListingBotApplication {
 
 	@Autowired

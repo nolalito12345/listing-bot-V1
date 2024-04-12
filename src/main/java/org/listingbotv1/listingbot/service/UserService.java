@@ -20,10 +20,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final SearchProfileRepository searchProfileRepository;
+
+    private final NotificationService notificationService;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     @Autowired
-    public UserService(UserRepository userRepository, SearchProfileRepository searchProfileRepository){this.userRepository = userRepository;
-        this.searchProfileRepository = searchProfileRepository;}
+    public UserService(UserRepository userRepository, SearchProfileRepository searchProfileRepository, NotificationService notificationService){this.userRepository = userRepository;
+        this.searchProfileRepository = searchProfileRepository;
+        this.notificationService = notificationService;}
 
     public void createUser(User user) {
         userRepository.save(user);
@@ -85,7 +88,11 @@ public class UserService {
             for (SearchProfile searchProfile : searchProfiles) {
                 for (Listing listing : listings) {
                     if (searchProfile.equals(listing)) {
-                        System.out.println("MATCH :=====> User " + user.getUsername() + ", Profile: "+searchProfile.getId() + " Matched listing ID: " + listing.getLink());
+                        String notif_str = "New " + listing.gethouse_size() + " for " + listing.getPrice() + "\n Link: " + listing.getLink();
+                        String phone_number = String.valueOf(user.getPhoneNumber());
+                        System.out.println("Notification sending to: " + phone_number);
+                        notificationService.sendSMS(phone_number, notif_str);
+
                     }
                 }
             }

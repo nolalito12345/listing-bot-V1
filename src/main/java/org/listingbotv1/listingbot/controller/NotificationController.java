@@ -17,8 +17,7 @@ public class NotificationController {
 
     @PostMapping("/sendSMS/{to}")
     public ResponseEntity<Void> sendSMS(@PathVariable String to,@RequestBody String body) {
-        String from = "+14245431565";
-        notificationService.sendSMS(to, from, body);
+        notificationService.sendSMS(to, body);
         return ResponseEntity.ok().build();
     }
 

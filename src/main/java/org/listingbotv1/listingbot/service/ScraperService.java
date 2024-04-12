@@ -19,6 +19,10 @@ import java.util.HashSet;
 import java.util.Optional;
 @Service
 public class ScraperService {
+
+    // This is a placeholder for the URL that the scraper will scrape, should be updated to be a database entry.
+    private String kijiji_url;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ScraperService.class);
 
     private final ListingRepository listingrepository;
@@ -166,5 +170,13 @@ public class ScraperService {
         return dupes;
     }
 
+    public void setKijijiUrl(String kijiji_url) {
+        this.kijiji_url = kijiji_url;
+        // I think this should actually update an entry in a database. This is just a placeholder.
+    }
+
+    public String getKijijiUrl() {
+        return kijiji_url;
+    }
 
 }

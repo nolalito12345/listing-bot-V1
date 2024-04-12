@@ -14,8 +14,10 @@ public class NotificationService {
     public static final String AUTH_TOKEN = System.getenv("TWILIO_AUTH_TOKEN");
 
 
-    public void sendSMS(String to, String from, String body) {
+
+    public void sendSMS(String to, String body) {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        String from = "+14245431565";
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber(to),
                 new com.twilio.type.PhoneNumber(from),

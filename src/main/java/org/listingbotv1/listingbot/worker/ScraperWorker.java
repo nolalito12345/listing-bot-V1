@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.concurrent.Semaphore;
 
 @Component
 public class ScraperWorker {
@@ -30,16 +30,20 @@ public class ScraperWorker {
 
 
     @Async
-    public void startWorker() throws IOException {
+    public void startWorker(){
         LOGGER.info("Starting worker");
 
         while (true) {
-            Long size = (taskQueueService.getRedisTemplate()).opsForList().size("scraperQueue");
             if ((taskQueueService.getRedisTemplate()).opsForList().size("scraperQueue") > 0) {
                 String url = taskQueueService.dequeueScraperTask();
                 // Execute web scraping task
-                HashSet<Listing> listings = scraperService.kijiji_scrape(url);
-                if (listings != null) {
+                HashSet<Listing> listings = null;
+                try {
+                    listings = scraperService.kijiji_scrape(url);
+                } catch (IOException ioe) {
+                    LOGGER.error("Error scraping kijiji", ioe);
+                }
+                    if (listings != null) {
                     LOGGER.info("Scraped {} new listings from kijiji", listings.size());
                     userService.notifyUsersOfMatchingListings(listings);
                 }
