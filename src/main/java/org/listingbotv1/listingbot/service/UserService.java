@@ -100,4 +100,9 @@ public class UserService {
         LOGGER.info("Finished notifying users of matching listings");
     }
 
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userRepository.delete(user);
+    }
 }
