@@ -36,6 +36,11 @@ public class ScraperWorker {
         while (true) {
             if ((taskQueueService.getRedisTemplate()).opsForList().size("scraperQueue") > 0) {
                 String url = taskQueueService.dequeueScraperTask();
+                if(url == null){
+                    // Skip this task if it is null
+                    LOGGER.error("Dequeued task is null, skipping...");
+                   continue;
+                }
                 // Execute web scraping task
                 HashSet<Listing> listings = null;
                 try {
