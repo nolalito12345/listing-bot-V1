@@ -12,9 +12,7 @@ public class ListingConfig {
 	@Bean
 	CommandLineRunner commandLineRunner(ListingRepository repository) {
 		return args -> {
-			//Listing kjiji_listing = new Listing();
-			//Listing craigslist_listing = new Listing();
-			//repository.saveAll(List.of(kjiji_listing,craigslist_listing));
+
 		};
 	}
 	

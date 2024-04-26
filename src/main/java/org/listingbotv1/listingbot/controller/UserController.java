@@ -50,6 +50,14 @@ public class UserController {
         userService.deleteUser(userId);
     }
 
+    @GetMapping("/all")
+    public Collection<User> getAllUsers() {
+        return userService.findAllUsers();
+    }
 
+    @GetMapping("/searchprofiles/all")
+    public Collection<SearchProfile> getAllSearchProfiles() {
+        return userService.findAllSearchProfiles();
+    }
 
 }

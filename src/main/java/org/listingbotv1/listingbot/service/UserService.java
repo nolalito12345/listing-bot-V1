@@ -32,6 +32,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
     // Other methods for user management
     @Transactional
     public void addSearchProfileToUser(Long userId, SearchProfile profile) {
