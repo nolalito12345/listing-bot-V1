@@ -1,0 +1,4 @@
+ListingController
+User <--> ListingController <--> ListingService
+- Responsible for handling api request for listing data
+

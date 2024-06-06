@@ -1,0 +1,13 @@
+ListingService
+ListingController <--> ListingService <--> ListingRepository
+- Responsible for retrieving listings from database
+
+
+ScraperService
+ScraperController <--> ScraperService <--> ListingRepository
+- Responsible for running and configuring web scrapers
+
+
+UserService
+*Add More Details once you expand on UserService*
+- Responsible for User Services

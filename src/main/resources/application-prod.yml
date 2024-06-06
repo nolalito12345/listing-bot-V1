@@ -4,3 +4,9 @@ spring:
     username: ${PROD_DB_USERNAME}
     password: ${PROD_DB_PASSWORD}
     name: listing-bot
+  data:
+    redis:
+      url: ${REDIS_URL}
+  jpa:
+    hibernate:
+      ddl-auto: update
